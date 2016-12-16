@@ -20,17 +20,12 @@ public class ConnectionManager {
     private static BasicDataSource dataSource = new BasicDataSource();
 
     static {
-        //加载并读取config.properties文件
-        Properties prop = new Properties();
-        try {
-            prop.load(ConnectionManager.class.getClassLoader().getResourceAsStream("config.properties"));
-            DRIVER = prop.getProperty("jdbc.driver");
-            URL = prop.getProperty("jdbc.url");
-            USERNAME = prop.getProperty("jdbc.username");
-            PASSWORD = prop.getProperty("jdbc.password");
-        } catch (IOException e) {
-            throw new DataAccessException("读取config.properties文件异常",e);
-        }
+
+        DRIVER = Config.get("jdbc.driver");
+        URL =  Config.get("jdbc.url");
+        USERNAME = Config.get("jdbc.username");
+        PASSWORD = Config.get("jdbc.password");
+
 
 
         dataSource.setDriverClassName(DRIVER);
