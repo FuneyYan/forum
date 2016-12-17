@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 public class BasicServlet extends HttpServlet {
     public void forward(String path, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("WEB-INF/view/"+path+".jsp").forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/view/"+path+".jsp").forward(req,resp);
     }
 
     public void renderTxt(String str,HttpServletResponse response) throws IOException {

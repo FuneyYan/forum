@@ -1,6 +1,7 @@
 package com.lz.servlet.user;
 
 import com.google.common.collect.Maps;
+import com.lz.entity.User;
 import com.lz.service.UserService;
 import com.lz.servlet.BasicServlet;
 import com.lz.util.StringUtils;
@@ -19,8 +20,8 @@ public class ValidateUserServlet extends BasicServlet {
         UserService userService=new UserService();
         String username=req.getParameter("username");
         username= StringUtils.isoToUtf8(username);
-        boolean result=userService.findByUserName(username);
-        if(result){//没找到,可以使用
+        User user=userService.findByUserName(username);
+        if(user==null){//没找到,可以使用
             renderTxt("true",resp);
         }else{
             renderTxt("false",resp);

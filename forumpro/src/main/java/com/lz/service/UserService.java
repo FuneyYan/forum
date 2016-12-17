@@ -7,6 +7,7 @@ import com.lz.dao.UserDao;
 import com.lz.entity.User;
 import com.lz.util.Config;
 import com.lz.util.EmailUtil;
+import com.lz.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class UserService {
             .expireAfterWrite(6, TimeUnit.HOURS)
             .build();
 
-    public boolean findByUserName(String username) {
+    public User findByUserName(String username) {
         return userDao.findByUserName(username);
     }
 
@@ -41,12 +42,11 @@ public class UserService {
             @Override
             public void run() {
                 String uuid= UUID.randomUUID().toString();
-                String url="http://loaclhost/user/active?_="+uuid;
+                String url="http://localhost/user/active?_="+uuid;
 
                 cache.put(uuid,username);//放入缓存6个小时
 
                 String html="<h3>please click <a href='"+url+"'>here</a> active you account</h3>";
-
                 EmailUtil.sendHtmlEmail(email,"用户邮件激活",html);
             }
         });
@@ -55,5 +55,22 @@ public class UserService {
 
 
 
+    }
+
+    public void activeByToken(String token) {
+        String username=cache.getIfPresent(token);
+        if (StringUtils.isEmpty(username)){
+            throw new RuntimeException("token无效或过期");
+        }else{
+            System.out.println(username);
+            User user=userDao.findByUserName(username);
+            if(user==null){
+                throw new RuntimeException("无法找到用户");
+            }else{
+                user.setState(User.USER_ACTIVE);
+                userDao.activeUser(user);
+                cache.invalidate(token);
+            }
+        }
     }
 }
