@@ -3,7 +3,9 @@ package com.lz.service;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.lz.dao.LoginlogDao;
 import com.lz.dao.UserDao;
+import com.lz.entity.Loginlog;
 import com.lz.entity.User;
 import com.lz.util.Config;
 import com.lz.util.EmailUtil;
@@ -15,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 public class UserService {
     private UserDao userDao=new UserDao();
+    private LoginlogDao logDao=new LoginlogDao();
+
 
     private static Cache<String,String> cache= CacheBuilder.newBuilder()
             .expireAfterWrite(6, TimeUnit.HOURS)
@@ -71,6 +75,26 @@ public class UserService {
                 userDao.activeUser(user);
                 cache.invalidate(token);
             }
+        }
+    }
+
+    public User login(String username, String password, String ip) {
+        User user=userDao.findByUserName(username);
+        if(user!=null && user.getPassword().equals
+                (DigestUtils.md5Hex(Config.get("password.salt")+password))){
+            if(user.getState()==User.USER_ACTIVE){
+                Loginlog loginlog=new Loginlog();
+                loginlog.setIp(ip);
+                loginlog.setUserid(user.getId());
+                logDao.userLogin(loginlog);
+                return user;
+            }else if(user.getState()==User.USER_UNACTIVE){
+                throw new RuntimeException("账户未激活");
+            }else{
+                throw new RuntimeException("账户禁用");
+            }
+        }else{
+            throw new RuntimeException("用户名或密码错误");
         }
     }
 }
