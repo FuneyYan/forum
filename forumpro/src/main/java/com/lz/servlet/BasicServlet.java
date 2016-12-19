@@ -1,11 +1,13 @@
 package com.lz.servlet;
 
 import com.google.gson.Gson;
+import com.lz.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -27,5 +29,15 @@ public class BasicServlet extends HttpServlet {
         writer.print(new Gson().toJson(obj));
         writer.flush();
         writer.close();
+    }
+
+    public User getCurrUser(HttpServletRequest req){
+        HttpSession session=req.getSession();
+        if(session.getAttribute("curr_user")!=null){
+            User user= (User) session.getAttribute("curr_user");
+            return user;
+        }else{
+            return null;
+        }
     }
 }

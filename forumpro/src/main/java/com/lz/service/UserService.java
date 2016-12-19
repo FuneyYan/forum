@@ -5,6 +5,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.lz.dao.LoginlogDao;
 import com.lz.dao.UserDao;
+import com.lz.dto.JsonResult;
 import com.lz.entity.Loginlog;
 import com.lz.entity.User;
 import com.lz.util.Config;
@@ -207,5 +208,39 @@ public class UserService {
             }
         }
 
+    }
+
+    /**
+     * 修改电子邮件
+     * @param user
+     * @param email
+     */
+    public void updateEmail(User user, String email) {
+        user.setEmail(email);
+        userDao.update(user);
+    }
+
+    /**
+     * 修改登陆密码
+     * @param oldPassword 原始密码
+     * @param newPassword 新密码
+     * @param user session(当前登陆)中的用户
+     */
+    public void updatePassword(String oldPassword, String newPassword, User user) {
+
+        if(DigestUtils.md5Hex(Config.get("password.salt")+oldPassword).equals(user.getPassword())){
+            user.setPassword(DigestUtils.md5Hex(Config.get("password.salt")+newPassword));
+            userDao.update(user);
+
+        }else{
+            throw new RuntimeException("原始密码不正确");
+        }
+
+    }
+
+//    修改用户的头像
+    public void updateAvatar(User user, String fileKey) {
+        user.setAvatar(fileKey);
+        userDao.update(user);
     }
 }

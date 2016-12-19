@@ -4,6 +4,8 @@ import com.google.common.collect.Maps;
 import com.lz.entity.User;
 import com.lz.service.UserService;
 import com.lz.servlet.BasicServlet;
+import com.lz.util.Config;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,7 @@ public class LoginServlet extends BasicServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().removeAttribute("curr_user");
         forward("user/login",req,resp);
     }
 
