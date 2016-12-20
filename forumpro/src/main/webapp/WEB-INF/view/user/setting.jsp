@@ -7,6 +7,7 @@
     <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/js/uploader/webuploader.css">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/js/sweetAlert/sweetalert.css">
 </head>
 <body>
 <%@ include file="../include/navbar.jsp"%>
@@ -108,7 +109,11 @@
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/uploader/webuploader.min.js"></script>
 <script src="/static/js/user/setting.js"></script>
+<script src="/static/js/sweetAlert/sweetalert.min.js"></script>
 <script>
+
+
+
     var uploader=WebUploader.create({
         swf:"/static/js/uploader/Uploader.swf",
         server:"http://up-z1.qiniu.com/",

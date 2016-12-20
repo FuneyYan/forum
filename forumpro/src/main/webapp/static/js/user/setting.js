@@ -30,11 +30,11 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=='success'){
-                        alert("邮箱修改成功");
+                        swal("","邮箱修改成功","success");
                     }
                 },
                 error:function () {
-                    alert("Server Exception");
+                    swal("",data.message,"error");
                 },
                 complete:function () {
                     $("#emailBtn").text("保存").removeAttr("disabled");
@@ -89,10 +89,17 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=='success'){
-                        alert("修改密码成功,请重新登录");
-                        window.location.href="/login";
+                        // alert("修改密码成功,请重新登录");
+
+                            swal({
+                                title:"修改密码成功,请重新登陆",
+                                type:"success",
+                                confirmButtonText:"确定",
+                            }, function() {
+                                window.location.href="/login";
+                            });
                     }else{
-                        alert(data.message);
+                        swal("",data.message,"error");
                     }
                 },
                 error:function () {

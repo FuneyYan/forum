@@ -45,13 +45,20 @@ $(function () {
                },
                success:function (data) {
                     if(data.state=='success'){
-                        alert("登录成功");
-                        var url=getParameterByName("redirect");
-                        if(url){
-                            window.location.href=url;
-                        }else{
-                            window.location.href="/home";
-                        }
+                        // alert("登录成功");
+                        swal({
+                            title:"登陆成功",
+                            type:"success",
+                            confirmButtonText:"确定",
+                        }, function() {
+                            var url=getParameterByName("redirect");
+                            if(url){
+                                window.location.href=url;
+                            }else{
+                                window.location.href="/home";
+                            }
+                        });
+
 
                     }else{
                         alert(data.message);
