@@ -60,15 +60,9 @@ public class SettingServlet extends BasicServlet {
         UserService userService=new UserService();
         try{
             userService.updatePassword(oldPassword,newPassword,user);
-            JsonResult jsonResult=new JsonResult();
-            jsonResult.setState(jsonResult.SUCCESS);
-            renderJson(jsonResult,resp);
+            renderJson(new JsonResult(),resp);
         }catch (Exception e){
-            JsonResult jsonResult=new JsonResult();
-            jsonResult.setState(JsonResult.ERROR);
-            jsonResult.setMessage(e.getMessage());
-
-            renderJson(jsonResult,resp);
+            renderJson(new JsonResult(JsonResult.ERROR,e.getMessage()),resp);
         }
     }
 

@@ -31,10 +31,20 @@ $(function () {
                 success:function (data) {
                     if(data.state=='success'){
                         swal("","邮箱修改成功","success");
+                    }else{
+                        swal({
+                            title:data.message,
+                            type:"error",
+                            confirmButtonText:"确定",
+                        });
                     }
                 },
                 error:function () {
-                    swal("",data.message,"error");
+                    swal({
+                        title:"服务器异常",
+                        type:"error",
+                        confirmButtonText:"确定",
+                    });
                 },
                 complete:function () {
                     $("#emailBtn").text("保存").removeAttr("disabled");
@@ -89,8 +99,6 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=='success'){
-                        // alert("修改密码成功,请重新登录");
-
                             swal({
                                 title:"修改密码成功,请重新登陆",
                                 type:"success",
@@ -99,11 +107,19 @@ $(function () {
                                 window.location.href="/login";
                             });
                     }else{
-                        swal("",data.message,"error");
+                        swal({
+                            title:data.message,
+                            type:"error",
+                            confirmButtonText:"确定",
+                        });
                     }
                 },
                 error:function () {
-                    alert("服务器异常");
+                    swal({
+                        title:"服务器异常",
+                        type:"error",
+                        confirmButtonText:"确定",
+                    });
                 },
                 complete:function () {
                     $("#passwordBtn").text("保存").removeAttr("disabled");

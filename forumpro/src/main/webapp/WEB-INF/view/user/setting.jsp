@@ -133,17 +133,31 @@
        $.post("/setting?action=avatar",{"fileKey":fileKey})
         .done(function (data) {
             if(data.state=='success'){
-                var url="http://oi1tcffmb.bkt.clouddn.com/"+fileKey;
-                $("#avatar_img").attr("src",url+"?imageView2/1/w/40/h/40");
-                $("#navbar_avatar").attr("src",url+"?imageView2/1/w/20/h/20");
+                swal({
+                    title:"上传头像成功",
+                    type:"success",
+                    confirmButtonText:"确定",
+                }, function() {
+                    var url="http://oi1tcffmb.bkt.clouddn.com/"+fileKey;
+                    $("#avatar_img").attr("src",url+"?imageView2/1/w/40/h/40");
+                    $("#navbar_avatar").attr("src",url+"?imageView2/1/w/20/h/20")
+                });
             }
         }).error(function () {
-           alert("头像设置失败");
+           swal({
+               title:"头像设置失败",
+               type:"error",
+               confirmButtonText:"确定",
+           });
        });
     });
     
     uploader.on("uploadError",function () {
-        alert("上传失败,请稍后再试");
+        swal({
+            title:"上传失败,稍后再试",
+            type:"error",
+            confirmButtonText:"确定",
+        });
     });
 
 

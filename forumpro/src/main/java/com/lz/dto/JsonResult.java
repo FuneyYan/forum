@@ -9,17 +9,29 @@ public class JsonResult {
     private String message;
     private Object data;
 
+//    成功并且不需要返回数据的话什么构造参数都不需要
     public JsonResult(){
-
+        this.state=SUCCESS;
     }
+
+//    成功并且需要返回数据
+    public JsonResult(Object data) {
+        this.state = SUCCESS;
+        this.data = data;
+    }
+
+
+//    失败不返回数据
+    public JsonResult(String state,String message){
+        this.state=state;
+        this.message=message;
+    }
+
+//    失败返回数据
     public JsonResult(String state,String message,Object data){
         this.state=state;
         this.message=message;
         this.data=data;
-    }
-    public JsonResult(Object data) {
-        this.state = SUCCESS;
-        this.data = data;
     }
 
     public String getState() {
