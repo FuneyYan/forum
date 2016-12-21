@@ -17,13 +17,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href=""><i class="fa fa-plus"></i></a>
+                        <a href="/addTopic"><i class="fa fa-plus"></i></a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bell"></i></a>
                     </li>
                     <li>
-                        <a href="setting.html"><i class="fa fa-cog"></i></a>
+                        <a href="/setting"><i class="fa fa-cog"></i></a>
                     </li>
                     <li>
                         <a href="/logout"><i class="fa fa-sign-out"></i></a>

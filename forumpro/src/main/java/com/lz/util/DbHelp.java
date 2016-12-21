@@ -7,6 +7,7 @@ import com.lz.exception.DataAccessException;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,18 @@ public class DbHelp {
             logger.error("执行{}异常",sql);
             throw new DataAccessException("执行"+ sql + "异常",ex);
         }
+    }
+    public static Integer insert(String sql, Object...param) {
+        QueryRunner queryRunner=new QueryRunner(ConnectionManager.getDataSource());
+        try {
+            logger.debug("{}:执行了",sql);
+            return queryRunner.insert(sql,new ScalarHandler<Long>(),param).intValue();
+        } catch (SQLException e) {
+            logger.error("执行{}异常",sql);
+            e.printStackTrace();
+            throw new DataAccessException("执行"+sql+"异常",e);
+        }
+
     }
 
     public static <T> T query(String sql,ResultSetHandler<T> handler,Object... params) throws DataAccessException {
@@ -55,5 +68,6 @@ public class DbHelp {
         }
 
     }
+
 
 }
