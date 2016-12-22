@@ -6,6 +6,9 @@ import com.lz.entity.Topic;
 import com.lz.entity.User;
 import com.lz.service.TopicService;
 import com.lz.servlet.BasicServlet;
+import com.lz.util.Config;
+import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +23,13 @@ public class AddTopicServlet extends BasicServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Auth auth=Auth.create(Config.get("qiniu.ak"),Config.get("qiniu.sk"));
+
+        StringMap stringMap=new StringMap();
+        stringMap.put("returnBody","{ \"success\": true,\"file_path\": \""+Config.get("qiniu.domain")+"${key}\"}");
+        String token=auth.uploadToken(Config.get("qiniu.bucket"),null,3600,stringMap);
+        req.setAttribute("token",token);
 //        先查出节点
         List<Node> list=topicService.getAllNode();
         req.setAttribute("listnode",list);

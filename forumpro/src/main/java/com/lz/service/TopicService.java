@@ -1,9 +1,11 @@
 package com.lz.service;
 
 import com.lz.dao.NodeDao;
+import com.lz.dao.ReplyDao;
 import com.lz.dao.TopicDao;
 import com.lz.dao.UserDao;
 import com.lz.entity.Node;
+import com.lz.entity.Reply;
 import com.lz.entity.Topic;
 import com.lz.entity.User;
 import com.lz.util.Config;
@@ -16,6 +18,7 @@ public class TopicService {
     TopicDao topicDao=new TopicDao();
     NodeDao nodeDao=new NodeDao();
     UserDao userDao=new UserDao();
+    ReplyDao replyDao=new ReplyDao();
 
     public List<Node> getAllNode(){
         List<Node> list=nodeDao.findAllNode();
@@ -51,5 +54,14 @@ public class TopicService {
         }
 
 
+    }
+
+
+    public void addReply(String content, Integer topicid, Integer userid) {
+        Reply reply=new Reply();
+        reply.setContent(content);
+        reply.setTopic_id(topicid);
+        reply.setUser_id(userid);
+        replyDao.addReply(reply);
     }
 }

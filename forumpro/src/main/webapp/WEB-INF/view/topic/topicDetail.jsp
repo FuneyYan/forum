@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,16 +9,17 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/js/editer/styles/simditor.css">
     <style>
-        body{
+        body {
             background-image: url(/static/img/bg.jpg);
         }
+
         .simditor .simditor-body {
             min-height: 100px;
         }
     </style>
 </head>
 <body>
-<%@include file="../include/navbar.jsp"%>
+<%@include file="../include/navbar.jsp" %>
 <!--header-bar end-->
 <div class="container">
     <div class="box">
@@ -56,10 +58,13 @@
             <table class="talk-table">
                 <tr>
                     <td width="50">
-                        <img class="avatar" src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40" alt="">
+                        <img class="avatar"
+                             src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40"
+                             alt="">
                     </td>
                     <td width="auto">
-                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px" class="reply">4小时前</span>
+                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px"
+                                                                            class="reply">4小时前</span>
                         <br>
                         <p style="font-size: 14px">不知道国内有哪些公司开始用 react-native 了呢？我就知道天猫 Pad 版部分</p>
                     </td>
@@ -75,10 +80,13 @@
             <table class="talk-table">
                 <tr>
                     <td width="50">
-                        <img class="avatar" src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40" alt="">
+                        <img class="avatar"
+                             src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40"
+                             alt="">
                     </td>
                     <td width="auto">
-                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px" class="reply">4小时前</span>
+                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px"
+                                                                            class="reply">4小时前</span>
                         <br>
                         <p style="font-size: 14px">不知道国内有哪些公司开始用 react-native 了呢？我就知道天猫 Pad 版部分</p>
                     </td>
@@ -94,10 +102,13 @@
             <table class="talk-table">
                 <tr>
                     <td width="50">
-                        <img class="avatar" src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40" alt="">
+                        <img class="avatar"
+                             src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40"
+                             alt="">
                     </td>
                     <td width="auto">
-                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px" class="reply">4小时前</span>
+                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px"
+                                                                            class="reply">4小时前</span>
                         <br>
                         <p style="font-size: 14px">不知道国内有哪些公司开始用 react-native 了呢？我就知道天猫 Pad 版部分</p>
                     </td>
@@ -113,10 +124,13 @@
             <table class="talk-table">
                 <tr>
                     <td width="50">
-                        <img class="avatar" src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40" alt="">
+                        <img class="avatar"
+                             src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40"
+                             alt="">
                     </td>
                     <td width="auto">
-                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px" class="reply">4小时前</span>
+                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px"
+                                                                            class="reply">4小时前</span>
                         <br>
                         <p style="font-size: 14px">不知道国内有哪些公司开始用 react-native 了呢？我就知道天猫 Pad 版部分</p>
                     </td>
@@ -132,10 +146,13 @@
             <table class="talk-table">
                 <tr>
                     <td width="50">
-                        <img class="avatar" src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40" alt="">
+                        <img class="avatar"
+                             src="http://7xp5t4.com1.z0.glb.clouddn.com/Fqb8f9uDknAt2ilBoY-ipSZRMes-?imageView2/1/w/40/h/40"
+                             alt="">
                     </td>
                     <td width="auto">
-                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px" class="reply">4小时前</span>
+                        <a href="" style="font-size: 12px">fankay</a> <span style="font-size: 12px"
+                                                                            class="reply">4小时前</span>
                         <br>
                         <p style="font-size: 14px">不知道国内有哪些公司开始用 react-native 了呢？我就知道天猫 Pad 版部分</p>
                     </td>
@@ -150,14 +167,25 @@
     </div>
 
     <div class="box" style="margin:20px 0px;">
-        <div class="talk-item muted" style="font-size: 12px"><i class="fa fa-plus"></i> 添加一条新回复</div>
-        <form action="" style="padding: 15px;margin-bottom:0px;">
-            <textarea name="" id="editor"></textarea>
-        </form>
-        <div class="talk-item muted" style="text-align: right;font-size: 12px">
-            <span class="pull-left">请尽量让自己的回复能够对别人有帮助回复</span>
-            <button class="btn btn-primary">发布</button>
-        </div>
+
+        <c:choose>
+            <c:when test="${not empty sessionScope.curr_user}">
+                <div class="talk-item muted" style="font-size: 12px"><i class="fa fa-plus"></i> 添加一条新回复</div>
+                <form action="/addReply" method="post" style="padding: 15px;margin-bottom:0px;" id="replyForm">
+                    <input type="hidden" value="${topic.id}" name="topicid">
+                    <textarea name="content" id="editor"></textarea>
+                </form>
+                <div class="talk-item muted" style="text-align: right;font-size: 12px">
+                    <span class="pull-left">请尽量让自己的回复能够对别人有帮助回复</span>
+                    <button class="btn btn-primary" id="replyBtn">发布</button>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="talk-item">请 <a href="/login?redirect=topicDetail?topicid=${topic.id}">登陆</a> 后再回复</div>
+            </c:otherwise>
+        </c:choose>
+
+
     </div>
 
 </div>
@@ -167,13 +195,56 @@
 <script src="/static/js/editer/scripts/hotkeys.min.js"></script>
 <script src="/static/js/editer/scripts/uploader.min.js"></script>
 <script src="/static/js/editer/scripts/simditor.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
 <script>
-    $(function(){
+    $(function () {
         var editor = new Simditor({
             textarea: $('#editor'),
-            toolbar:false
+            toolbar: false
             //optional options
+
+
         });
+
+        $("#replyBtn").click(function () {
+            $("#replyForm").submit();
+        });
+
+        $("#replyForm").validate({
+            errorElement: "span",
+            errorClass: "text-error",
+            rules: {
+                content: {
+                    required: true
+                }
+            },
+            messages: {
+                content: {
+                    required: "评论不能为空"
+                }
+            },
+//            submitHandler: function (form) {
+//                $.ajax({
+//                    url: "/addReply",
+//                    type: "post",
+//                    data: $(form).serialize(),
+//                    beforeSend:function () {
+//                        $("#replyBtn").text("发布中...").attr("disabled","disabled");
+//                    },
+//                    success:function (data) {
+//
+//                    },
+////                    error:function () {
+////                        alert("服务器异常");
+////                    },
+//                    complete:function () {
+//                        $("#editor").text("");
+//                        $("#replyBtn").text("发布").removeAttr("disabled");
+//                    }
+//            });
+//            }
+        });
+
     });
 </script>
 

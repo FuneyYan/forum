@@ -1,5 +1,6 @@
 package com.lz.servlet.topic;
 
+import com.lz.dto.JsonResult;
 import com.lz.entity.Topic;
 import com.lz.service.TopicService;
 import com.lz.servlet.BasicServlet;
@@ -18,6 +19,8 @@ public class TopicDetailServlet extends BasicServlet {
         try {
             Topic topic = topicService.findTopicById(topicid);
             req.setAttribute("topic",topic);
+//            JsonResult jsonResult=new JsonResult();
+//            renderJson(jsonResult,resp);
             forward("topic/topicDetail",req,resp);
 
         }catch (Exception e){

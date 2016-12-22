@@ -1,0 +1,63 @@
+package com.lz.entity;
+
+import java.sql.Timestamp;
+
+public class Reply {
+
+    private Integer id;
+    private String content;
+    private Timestamp createtime;
+    private Integer topic_id;
+    private Integer user_id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Timestamp getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Timestamp createtime) {
+        this.createtime = createtime;
+    }
+
+    public Integer getTopic_id() {
+        return topic_id;
+    }
+
+    public void setTopic_id(Integer topic_id) {
+        this.topic_id = topic_id;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", createtime=" + createtime +
+                ", topic_id=" + topic_id +
+                ", user_id=" + user_id +
+                '}';
+    }
+}
