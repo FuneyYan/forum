@@ -9,8 +9,11 @@ import com.lz.entity.Reply;
 import com.lz.entity.Topic;
 import com.lz.entity.User;
 import com.lz.util.Config;
+import com.lz.util.DbHelp;
 import com.lz.util.StringUtils;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class TopicService {
@@ -31,7 +34,9 @@ public class TopicService {
         topic.setContent(content);
         topic.setNode_id(node_id);
         topic.setUser_id(user_id);
-        topic.setId(topicDao.addTopic(topic));
+        //设置当前时间为该主题的最后回复时间
+        topic.setLastreplytime(new Timestamp(new Date().getTime()));
+        topic.setId(topicDao.addTopic(topic));//insert返回对象id,并设置后返回对象
 
         return topic;
     }
@@ -45,6 +50,10 @@ public class TopicService {
                 user.setAvatar(Config.get("qiniu.domain")+user.getAvatar());
                 topic.setUser(user);
                 topic.setNode(node);
+                //设置点击次数
+                topic.setClicknum(topic.getClicknum()+1);
+                topicDao.update(topic);
+
                 return topic;
             }catch(Exception e){
                 throw new RuntimeException("该帖不存在或已被删除");
@@ -56,12 +65,25 @@ public class TopicService {
 
     }
 
-
     public void addReply(String content, Integer topicid, Integer userid) {
         Reply reply=new Reply();
         reply.setContent(content);
         reply.setTopic_id(topicid);
         reply.setUser_id(userid);
+
+        Topic topic=topicDao.findTopicById(Integer.valueOf(topicid));
+        if(topic!=null){
+//          跟新最后一条回复时间
+            topic.setLastreplytime(new Timestamp(new Date().getTime()));
+            topicDao.update(topic);
+        }else{
+            throw new RuntimeException("该贴不存在或已删除");
+        }
+
         replyDao.addReply(reply);
+    }
+
+    public List<Reply> findReplyListById(String id){
+        return replyDao.findListByTopicId(Integer.valueOf(id));
     }
 }

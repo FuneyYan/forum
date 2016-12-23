@@ -53,7 +53,8 @@ $(function () {
                         }, function() {
                             var url=getParameterByName("redirect");
                             if(url){
-                                window.location.href=url;
+                                var hash=location.hash;
+                                window.location.href=url+hash;
                             }else{
                                 window.location.href="/home";
                             }
