@@ -1,13 +1,7 @@
 package com.lz.service;
 
-import com.lz.dao.NodeDao;
-import com.lz.dao.ReplyDao;
-import com.lz.dao.TopicDao;
-import com.lz.dao.UserDao;
-import com.lz.entity.Node;
-import com.lz.entity.Reply;
-import com.lz.entity.Topic;
-import com.lz.entity.User;
+import com.lz.dao.*;
+import com.lz.entity.*;
 import com.lz.util.Config;
 import com.lz.util.DbHelp;
 import com.lz.util.StringUtils;
@@ -22,6 +16,8 @@ public class TopicService {
     NodeDao nodeDao=new NodeDao();
     UserDao userDao=new UserDao();
     ReplyDao replyDao=new ReplyDao();
+    FavDao favDao=new FavDao();
+    ThankDao thankDao=new ThankDao();
 
     public List<Node> getAllNode(){
         List<Node> list=nodeDao.findAllNode();
@@ -50,9 +46,6 @@ public class TopicService {
                 user.setAvatar(Config.get("qiniu.domain")+user.getAvatar());
                 topic.setUser(user);
                 topic.setNode(node);
-                //设置点击次数
-                topic.setClicknum(topic.getClicknum()+1);
-                topicDao.update(topic);
 
                 return topic;
             }catch(Exception e){
@@ -85,5 +78,89 @@ public class TopicService {
 
     public List<Reply> findReplyListById(String id){
         return replyDao.findListByTopicId(Integer.valueOf(id));
+    }
+
+    /**
+     * 查找用户是否收藏了某个主题
+     * @param userid 用户
+     * @param topicid 主题
+     * @return
+     */
+    public Fav findFav(Integer userid, String topicid) {
+        if(StringUtils.isNumeric(topicid)){
+            return favDao.findFav(userid,Integer.valueOf(topicid));
+        }else{
+            throw new RuntimeException("该贴不存在或已经删除");
+        }
+    }
+
+    /**
+     * 添加收藏
+     * @param topicid
+     * @param userid
+     */
+    public void addFave(String topicid, String userid) {
+        Fav fav=new Fav();
+        fav.setTopic_id(Integer.valueOf(topicid));
+        fav.setUser_id(Integer.valueOf(userid));
+        favDao.addFav(fav);
+
+        Topic topic=topicDao.findTopicById(Integer.valueOf(topicid));
+        topic.setFavnum(topic.getFavnum()+1);
+        topicDao.update(topic);
+    }
+
+    /**
+     *  取消收藏
+     * @param topicid
+     * @param userid
+     */
+    public void deleteFave(String topicid, String userid) {
+        Fav fav=new Fav();
+        fav.setTopic_id(Integer.valueOf(topicid));
+        fav.setUser_id(Integer.valueOf(userid));
+        favDao.deleteFave(fav);
+
+        Topic topic=topicDao.findTopicById(Integer.valueOf(topicid));
+        topic.setFavnum(topic.getFavnum()-1);
+        topicDao.update(topic);
+    }
+
+    /**
+     * 更新topic的clicknum
+     * @param topic
+     */
+    public void updateTopic(Topic topic) {
+        topicDao.update(topic);
+    }
+
+    public void addThank(String topicid, String userid) {
+        Thank thank=new Thank();
+        thank.setTopic_id(Integer.valueOf(topicid));
+        thank.setUser_id(Integer.valueOf(userid));
+        thankDao.addThank(thank);
+
+        Topic topic=topicDao.findTopicById(Integer.valueOf(topicid));
+        topic.setThanknum(topic.getThanknum()+1);
+        topicDao.update(topic);
+    }
+
+    public void deleteThank(String topicid, String userid) {
+        Thank thank=new Thank();
+        thank.setTopic_id(Integer.valueOf(topicid));
+        thank.setUser_id(Integer.valueOf(userid));
+        thankDao.deleteThank(thank);
+
+        Topic topic=topicDao.findTopicById(Integer.valueOf(topicid));
+        topic.setThanknum(topic.getThanknum()-1);
+        topicDao.update(topic);
+    }
+
+    public Thank findThank(Integer userid, String topicid) {
+        if(StringUtils.isNumeric(topicid)){
+            return thankDao.findThank(userid,Integer.valueOf(topicid));
+        }else{
+            throw new RuntimeException("该贴不存在或已经删除");
+        }
     }
 }

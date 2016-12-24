@@ -31,21 +31,46 @@
         <div class="topic-head">
             <img class="img-rounded avatar" src="${topic.user.avatar}?imageView2/1/w/60/h/60" alt="">
             <h3 class="title">${topic.title}</h3>
-            <p class="topic-msg muted"><a href="">${topic.user.username}</a> · <span id="topicTime">${topic.createtime}</span></p>
+            <p class="topic-msg muted"><a href="">${topic.user.username}</a> · <span
+                    id="topicTime">${topic.createtime}</span></p>
         </div>
         <div class="topic-body">
             ${topic.content}
         </div>
         <div class="topic-toolbar">
-            <ul class="unstyled inline pull-left">
-                <li><a href="">加入收藏</a></li>
-                <li><a href="">感谢</a></li>
-                <li><a href=""></a></li>
-            </ul>
+            <c:if test="${not empty sessionScope.curr_user}">
+                <ul class="unstyled inline pull-left">
+                    <c:choose>
+
+                        <c:when test="${not empty fav}">
+                            <li><a href="javascript:;" class="handlerFav">取消收藏</a></li>
+                        </c:when>
+
+                        <c:otherwise>
+                            <li><a href="javascript:;" class="handlerFav">加入收藏</a></li>
+                        </c:otherwise>
+
+                    </c:choose>
+
+                    <c:choose>
+
+                        <c:when test="${not empty thank}">
+                            <li><a href="javascript:;" class="handlerThank">取消感谢</a></li>
+                        </c:when>
+
+                        <c:otherwise>
+                            <li><a href="javascript:;" class="handlerThank">感谢</a></li>
+                        </c:otherwise>
+
+                    </c:choose>
+
+                </ul>
+            </c:if>
+
             <ul class="unstyled inline pull-right muted">
                 <li>${topic.clicknum}次点击</li>
-                <li>${topic.favnum}人收藏</li>
-                <li>${topic.thanknum}人感谢</li>
+                <li><span id="topicFav">${topic.favnum}</span>人收藏</li>
+                <li><span id="topicThank">${topic.thanknum}</span>人感谢</li>
             </ul>
         </div>
     </div>
@@ -70,12 +95,13 @@
                         </td>
                         <td width="auto">
                             <a href="" style="font-size: 12px">${reply.user.username}</a> <span style="font-size: 12px"
-                                                                                class="reply">${reply.createtime}</span>
+                                                                                                class="reply">${reply.createtime}</span>
                             <br>
                             <p style="font-size: 14px">${reply.content}</p>
                         </td>
                         <td width="70" align="right" style="font-size: 12px">
-                            <a href="javascript:;" title="回复" class="replyLink" rel="${index.count}"><i class="fa fa-reply"></i></a>&nbsp;
+                            <a href="javascript:;" title="回复" class="replyLink" rel="${index.count}"><i
+                                    class="fa fa-reply"></i></a>&nbsp;
                             <span class="badge">${index.count}</span>
                         </td>
                     </tr>
@@ -101,6 +127,7 @@
                     <span class="pull-left">请尽量让自己的回复能够对别人有帮助回复</span>
                     <button class="btn btn-primary" id="replyBtn">发布</button>
                 </div>
+
             </c:when>
             <c:otherwise>
                 <div class="talk-item">请 <a href="/login?redirect=topicDetail?topicid=${topic.id}#reply">登陆</a> 后再回复
@@ -127,7 +154,6 @@
             textarea: $('#editor'),
             toolbar: false
             //optional options
-
 
         });
 
@@ -177,10 +203,70 @@
 
 //        回复用户的评论
         $(".replyLink").click(function () {
-            var count=$(this).attr("rel");
-            var html="<a href="+'#reply'+count+">#"+count+"</a>";
-            editor.setValue(html+editor.getValue());
-           window.location.href="#reply";
+            var count = $(this).attr("rel");
+            var html = "<a href=" + '#reply' + count + ">#" + count + "</a>";
+            editor.setValue(html + editor.getValue());
+            window.location.href = "#reply";
+        });
+
+        var action="";
+//        加入/取消收藏
+        $this=$(".handlerFav");
+        $(".handlerFav").click(function () {
+            if ($(this).text() == '加入收藏') {
+                action="fav";
+            } else {//取消收藏
+                action="unfav";
+            }
+            $.ajax({
+                url: "/fav",
+                type: "post",
+                data: {"topicid": ${topic.id}, "userid": ${topic.user.id},"action":action},
+                success:function (data) {
+                    if(action=="fav"){
+                        $this.text("取消收藏");
+                    }else{
+                        $this.text("加入收藏");
+                    }
+                    $("#topicFav").text(data.data);
+                },
+                error:function () {
+                    alert("服务器异常");
+                },
+            });
+
+
+        });
+
+
+
+        var actionThank="";
+//        加入/取消收藏
+        $thisThank=$(".handlerThank");
+        $(".handlerThank").click(function () {
+            if ($(this).text() == '感谢') {
+                actionThank="unthank";
+            } else {//取消收藏
+                actionThank="thank";
+            }
+            $.ajax({
+                url: "/thank",
+                type: "post",
+                data: {"topicid": ${topic.id}, "userid": ${topic.user.id},"action":actionThank},
+                success:function (data) {
+                    if(actionThank=="unthank"){
+                        $thisThank.text("取消感谢");
+                    }else{
+                        $thisThank.text("感谢");
+                    }
+                    $("#topicThank").text(data.data);
+                },
+                error:function () {
+                    alert("服务器异常");
+                },
+            });
+
+
         });
 
     });

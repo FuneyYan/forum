@@ -1,8 +1,7 @@
 package com.lz.servlet.topic;
 
 import com.lz.dto.JsonResult;
-import com.lz.entity.Reply;
-import com.lz.entity.Topic;
+import com.lz.entity.*;
 import com.lz.service.TopicService;
 import com.lz.servlet.BasicServlet;
 
@@ -19,8 +18,17 @@ public class TopicDetailServlet extends BasicServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String topicid=req.getParameter("topicid");
         TopicService topicService=new TopicService();
+        User user=getCurrUser(req);
         try {
             Topic topic = topicService.findTopicById(topicid);
+            topic.setFavnum(topic.getFavnum()+1);
+            topicService.updateTopic(topic);
+            if(user!=null){
+                Fav fav=topicService.findFav(user.getId(),topicid);
+                req.setAttribute("fav",fav);
+                Thank thank=topicService.findThank(user.getId(),topicid);
+                req.setAttribute("thank",thank);
+            }
             req.setAttribute("topic",topic);
 
 //            获取回复列表

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="header-bar">
     <div class="container">
-        <a href="#" class="brand">
+        <a href="/home" class="brand">
             <i class="fa fa-reddit-alien"></i>
         </a>
 
