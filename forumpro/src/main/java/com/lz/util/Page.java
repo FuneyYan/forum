@@ -16,7 +16,7 @@ public class Page<T> {
     //总条数
     private int totals;
     //每页显示的数据量
-    private int pageSize = 2;
+    private int pageSize = 5;
     //当前页的起始行号
     private int start;
 
@@ -40,6 +40,10 @@ public class Page<T> {
 
         //计算当前页的起始行数
         start = (pageNo - 1) * pageSize;
+
+        if(start<0){
+            this.start=0;
+        }
     }
 
 

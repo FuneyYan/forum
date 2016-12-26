@@ -1,14 +1,17 @@
 package com.lz.service;
 
+import com.google.common.collect.Maps;
 import com.lz.dao.*;
 import com.lz.entity.*;
 import com.lz.util.Config;
 import com.lz.util.DbHelp;
+import com.lz.util.Page;
 import com.lz.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class TopicService {
 
@@ -162,5 +165,24 @@ public class TopicService {
         }else{
             throw new RuntimeException("该贴不存在或已经删除");
         }
+    }
+
+    public Page<Topic> findAllTopicByNodeid(String nodeid, Integer pageNo) {
+        Map<String,Object> map= Maps.newHashMap();
+        int count=0;
+        if(StringUtils.isEmpty(nodeid)){
+            count=topicDao.count();
+        }else{
+            count=topicDao.count(nodeid);
+        }
+
+        Page<Topic> topicPage=new Page<Topic>(count,pageNo);
+        map.put("nodeid",nodeid);
+        map.put("start",topicPage.getStart());
+        map.put("pageSize",topicPage.getPageSize());
+
+        List<Topic> list=topicDao.findAll(map);
+        topicPage.setItems(list);
+        return topicPage;
     }
 }
