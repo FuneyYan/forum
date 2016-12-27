@@ -38,6 +38,11 @@ public class TopicService {
         topic.setLastreplytime(new Timestamp(new Date().getTime()));
         topic.setId(topicDao.addTopic(topic));//insert返回对象id,并设置后返回对象
 
+//        更新节点表的topicnum
+        Node node=nodeDao.findById(node_id);
+        node.setTopicnum(node.getTopicnum()+1);
+        nodeDao.update(node);
+
         return topic;
     }
 
@@ -206,5 +211,30 @@ public class TopicService {
         List<Topic> list=topicDao.findAll(map);
         topicPage.setItems(list);
         return topicPage;
+    }
+
+    public void updateTopicByid(String title, String content, String nodeid, String topicid) {
+
+        Topic topic=findTopicById(topicid);
+        Integer lastNodeid=topic.getNode_id();
+        if(topic!=null && topic.isEdit()){
+            topic.setTitle(title);
+            topic.setContent(content);
+            topic.setNode_id(Integer.valueOf(nodeid));
+            topicDao.update(topic);
+
+            if(lastNodeid!=Integer.valueOf(nodeid)){
+                Node node=nodeDao.findById(Integer.valueOf(nodeid));
+                node.setTopicnum(node.getTopicnum()+1);
+                nodeDao.update(node);
+
+                Node newNode=nodeDao.findById(Integer.valueOf(lastNodeid));
+                newNode.setTopicnum(newNode.getTopicnum()-1);
+                nodeDao.update(newNode);
+            }
+        }else{
+            throw  new RuntimeException("该贴不存在");
+        }
+
     }
 }

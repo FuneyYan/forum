@@ -31,8 +31,7 @@
         <div class="topic-head">
             <img class="img-rounded avatar" src="${topic.user.avatar}?imageView2/1/w/60/h/60" alt="">
             <h3 class="title">${topic.title}</h3>
-            <p class="topic-msg muted"><a href="">${topic.user.username}</a> · <span
-                    id="topicTime">${topic.createtime}</span></p>
+            <p class="topic-msg muted"><a href="">${topic.user.username}</a> · <span id="topicTime">${topic.createtime}</span></p>
         </div>
         <div class="topic-body">
             ${topic.content}
@@ -63,6 +62,10 @@
                         </c:otherwise>
 
                     </c:choose>
+
+                    <c:if test="${sessionScope.curr_user.id==topic.user_id and topic.edit}">
+                        <li><a href="/topicEdit?topicid=${topic.id}">编辑</a></li>
+                    </c:if>
 
                 </ul>
             </c:if>

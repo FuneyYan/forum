@@ -1,6 +1,8 @@
 package com.lz.entity;
 
 
+import org.joda.time.DateTime;
+
 import java.sql.Timestamp;
 
 public class Topic {
@@ -122,6 +124,14 @@ public class Topic {
 
     public void setNode(Node node) {
         this.node = node;
+    }
+
+    public boolean isEdit(){
+        DateTime dateTime=new DateTime(getCreatetime());
+        if(dateTime.plusHours(1).isAfterNow() && getReplynum()==0){
+            return true;
+        }
+        return false;
     }
 
     @Override

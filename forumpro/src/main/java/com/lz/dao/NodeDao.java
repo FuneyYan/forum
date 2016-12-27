@@ -17,4 +17,9 @@ public class NodeDao {
         String sql="select * from t_node where id=?";
         return DbHelp.query(sql,new BeanHandler<Node>(Node.class),id);
     }
+
+    public void update(Node node) {
+        String sql = "update t_node set topicnum = ?,nodename = ? where id = ?";
+        DbHelp.update(sql,node.getTopicnum(),node.getNodename(),node.getId());
+    }
 }
