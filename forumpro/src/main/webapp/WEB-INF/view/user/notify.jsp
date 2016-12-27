@@ -68,6 +68,15 @@
 <script>
 
     $(function () {
+
+        var sons=$(".ckSon");
+        if(!sons[0]){
+            $("#ckFather").hide();
+        }else{
+            $("#ckFather").show();
+        }
+
+
         $("#ckFather").click(function () {
            var sons=$(".ckSon");
             for(var i=0;i<sons.length;i++){

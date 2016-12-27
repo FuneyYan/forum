@@ -148,6 +148,7 @@
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="//cdn.bootcss.com/moment.js/2.10.6/moment.min.js"></script>
 <script src="//cdn.bootcss.com/moment.js/2.10.6/locale/zh-cn.js"></script>
+<script src="/static/js/user/notify.js"></script>
 <script>
     $(function () {
         var editor = new Simditor({

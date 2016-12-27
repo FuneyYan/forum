@@ -48,7 +48,7 @@
 <script src="/static/js/editer/scripts/uploader.min.js"></script>
 <script src="/static/js/editer/scripts/simditor.min.js"></script>
 <script src="/static/js/sweetAlert/sweetalert.min.js"></script>
-
+<script src="/static/js/user/notify.js"></script>
 
 <script>
     $(function () {
