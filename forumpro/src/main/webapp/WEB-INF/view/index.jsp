@@ -37,7 +37,7 @@
                             <a href="/topicDetail?topicid=${topic.id}">${topic.title}</a>
                         </td>
                         <td width="50" align="center">
-                            <span class="badge">12</span>
+                            <span class="badge">${topic.replynum}</span>
                         </td>
                     </tr>
                 </table>
@@ -64,7 +64,7 @@
 
 <script src="/static/js/jquery-1.11.1.js"></script>
 <script src="/static/js/jquery.twbsPagination.min.js"></script>
-
+<script src="/static/js/user/notify.js"></script>
 
 <script>
     $(function(){
@@ -75,7 +75,7 @@
             last:'末页',
             prev:'上一页',
             next:'下一页',
-            href: '?p={{number}}&node=${param.node}'
+            href: '?p={{number}}&nodeid=${param.nodeid}'
         });
 
     });

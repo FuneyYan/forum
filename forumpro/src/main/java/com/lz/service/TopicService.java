@@ -21,6 +21,7 @@ public class TopicService {
     ReplyDao replyDao=new ReplyDao();
     FavDao favDao=new FavDao();
     ThankDao thankDao=new ThankDao();
+    NotifyDao notifyDao=new NotifyDao();
 
     public List<Node> getAllNode(){
         List<Node> list=nodeDao.findAllNode();
@@ -61,22 +62,37 @@ public class TopicService {
 
     }
 
+    /**
+     * 增加回复
+     * @param content 回复内容
+     * @param topicid 回复的主题
+     * @param userid 回复人的id
+     */
     public void addReply(String content, Integer topicid, Integer userid) {
         Reply reply=new Reply();
         reply.setContent(content);
         reply.setTopic_id(topicid);
         reply.setUser_id(userid);
+        replyDao.addReply(reply);
 
         Topic topic=topicDao.findTopicById(Integer.valueOf(topicid));
         if(topic!=null){
-//          跟新最后一条回复时间
+//          更新最后一条回复时间和回复数量
             topic.setLastreplytime(new Timestamp(new Date().getTime()));
+            topic.setReplynum(topic.getReplynum()+1);
             topicDao.update(topic);
         }else{
             throw new RuntimeException("该贴不存在或已删除");
         }
+//          增加通知
+        if(userid!=topic.getUser_id()){//不是自己给自己的回复的话
+            Notify notify=new Notify();
+            notify.setContent("您的主题<a href='topicDetail?topicid="+topicid+"'>["+topic.getTitle()+"]</a>有了新的回复,请查看");
+            notify.setUserid(topic.getUser_id());
+            notify.setState(Notify.NOTIFY_STATE_UNREAD);
+            notifyDao.addNotify(notify);
+        }
 
-        replyDao.addReply(reply);
     }
 
     public List<Reply> findReplyListById(String id){
@@ -167,11 +183,17 @@ public class TopicService {
         }
     }
 
+    /**
+     * 根据选择的节点查找主题并分页展示
+     * @param nodeid 节点id
+     * @param pageNo 分页号
+     * @return
+     */
     public Page<Topic> findAllTopicByNodeid(String nodeid, Integer pageNo) {
         Map<String,Object> map= Maps.newHashMap();
         int count=0;
         if(StringUtils.isEmpty(nodeid)){
-            count=topicDao.count();
+            count=topicDao.count();//查询全部
         }else{
             count=topicDao.count(nodeid);
         }

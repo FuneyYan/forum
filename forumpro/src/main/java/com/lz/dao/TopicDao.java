@@ -62,7 +62,6 @@ public class TopicDao {
             protected Topic handleRow(ResultSet rs) throws SQLException {
                 Topic topic = new BasicRowProcessor().toBean(rs,Topic.class);
                 User user = new User();
-                user.setId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setAvatar(Config.get("qiniu.domain") + rs.getString("avatar"));
                 topic.setUser(user);

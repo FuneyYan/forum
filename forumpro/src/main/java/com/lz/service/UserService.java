@@ -4,22 +4,27 @@ package com.lz.service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.lz.dao.LoginlogDao;
+import com.lz.dao.NotifyDao;
 import com.lz.dao.UserDao;
 import com.lz.dto.JsonResult;
 import com.lz.entity.Loginlog;
+import com.lz.entity.Notify;
 import com.lz.entity.User;
 import com.lz.util.Config;
 import com.lz.util.EmailUtil;
 import com.lz.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
 
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class UserService {
     private UserDao userDao=new UserDao();
     private LoginlogDao logDao=new LoginlogDao();
-
+    private NotifyDao notifyDao=new NotifyDao();
 
     private static Cache<String,String> cache= CacheBuilder.newBuilder()
             .expireAfterWrite(6, TimeUnit.HOURS)
@@ -242,5 +247,27 @@ public class UserService {
     public void updateAvatar(User user, String fileKey) {
         user.setAvatar(fileKey);
         userDao.update(user);
+    }
+
+    //根据用户id查找对应的通知
+    public List<Notify> findAllNotifyByUserid(Integer userid) {
+        if(userid!=null){
+            return notifyDao.findAllNotifyByUserid(userid);
+        }else{
+            throw new RuntimeException("请先登陆");
+        }
+    }
+
+    //更新选中的未读消息
+    public void readNotify(String ids) {
+        if(StringUtils.isNotEmpty(ids)){
+            String[] idArr=ids.split(",");
+            for(int i=0;i<idArr.length;i++){
+                Notify notify= notifyDao.findByid(idArr[i]);
+                notify.setReadtime(new Timestamp(DateTime.now().getMillis()));
+                notify.setState(Notify.NOTIFY_STATE_READ);
+                notifyDao.readNotify(notify);
+            }
+        }
     }
 }
