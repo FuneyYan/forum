@@ -10,7 +10,7 @@ import java.util.List;
 public class NotifyDao {
 
     public List<Notify> findAllNotifyByUserid(Integer userid) {
-        String sql="select * from t_notify where userid=?";
+        String sql="select * from t_notify where userid=? ORDER BY readtime, createtime";
         return DbHelp.query(sql,new BeanListHandler<Notify>(Notify.class),userid);
     }
 
