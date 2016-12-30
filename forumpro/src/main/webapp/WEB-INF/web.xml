@@ -26,6 +26,10 @@
       <param-name>validateURL</param-name>
       <param-value>/setting,/addTopic,/topicEdit</param-value>
     </init-param>
+    <init-param>
+      <param-name>adminValidateURL</param-name>
+      <param-value>/admin/home,/admin/topic</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>loginFilter</filter-name>

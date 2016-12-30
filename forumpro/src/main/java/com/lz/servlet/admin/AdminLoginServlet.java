@@ -27,7 +27,7 @@ public class AdminLoginServlet extends BasicServlet{
         String ip=req.getRemoteAddr();
         try {
             Admin admin=adminService.findAdminByName(adminname,password,ip);
-            req.getSession().setAttribute("admin_user",admin);
+            req.getSession().setAttribute("curr_admin",admin);
             renderJson(new JsonResult(),resp);
         }catch (Exception e){
             renderJson(new JsonResult(e.getMessage()),resp);

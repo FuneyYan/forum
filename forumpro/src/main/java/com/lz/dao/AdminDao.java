@@ -10,4 +10,9 @@ public class AdminDao {
         String sql="select * from t_admin where adminname=?";
         return DbHelp.query(sql,new BeanHandler<Admin>(Admin.class),adminname);
     }
+
+    public void delTopicById(Integer topicid) {
+        String sql="delete from t_topic where id=?";
+        DbHelp.update(sql,topicid);
+    }
 }

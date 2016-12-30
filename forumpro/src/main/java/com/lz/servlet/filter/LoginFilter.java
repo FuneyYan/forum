@@ -7,46 +7,67 @@ import java.io.IOException;
 import java.util.*;
 
 public class LoginFilter extends AbstractFilter {
-    private List<String> list=null;
+    private List<String> list = null;
+    private List<String> adminList = null;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        String validateURL=filterConfig.getInitParameter("validateURL");
-         list=Arrays.asList(validateURL.split(","));
+        String validateURL = filterConfig.getInitParameter("validateURL");
+        String adminValidateURL = filterConfig.getInitParameter("adminValidateURL");
+        list = Arrays.asList(validateURL.split(","));
+        adminList = Arrays.asList(adminValidateURL.split(","));
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request= (HttpServletRequest) servletRequest;
-        HttpServletResponse response= (HttpServletResponse) servletResponse;
-        String url=request.getRequestURI();
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        String url = request.getRequestURI();
+        if(url.startsWith("/admin")){
 
-        if(list!=null && list.contains(url)){
-            if(request.getSession().getAttribute("curr_user")!=null){
-                filterChain.doFilter(servletRequest, servletResponse);
-            }else{
-                Map map=request.getParameterMap();
-                Set paramSet=map.entrySet();
-                Iterator iterator=paramSet.iterator();
-                if(iterator.hasNext()){
-                    url+="?";
-                    while(iterator.hasNext()){
-                        Map.Entry mapEntry= (Map.Entry) iterator.next();
-                        Object key=mapEntry.getKey();
-                        Object value=mapEntry.getValue();
-                        String []val= (String[]) value;
-                        String params="";
-
-                        for(int i=0;i<val.length;i++){
-                            params+=key+"="+val[i]+"&";
-                            url+=params;
-                        }
-                        url=url.substring(0,url.length()-1);
-                    }
+            if(adminList!=null && adminList.contains(url)){
+                if(request.getSession().getAttribute("curr_admin")==null){
+                    response.sendRedirect("/admin/login?redirect="+url);
+                }else{
+                    filterChain.doFilter(servletRequest, servletResponse);
                 }
-                response.sendRedirect("/login?redirect="+url);
+            }else{
+                filterChain.doFilter(servletRequest, servletResponse);
             }
+
         }else{
-            filterChain.doFilter(servletRequest, servletResponse);
+            if (list != null && list.contains(url)) {
+                if (request.getSession().getAttribute("curr_user") != null) {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    Map map = request.getParameterMap();
+                    Set paramSet = map.entrySet();
+                    Iterator iterator = paramSet.iterator();
+                    if (iterator.hasNext()) {
+                        url += "?";
+                        while (iterator.hasNext()) {
+                            Map.Entry mapEntry = (Map.Entry) iterator.next();
+                            Object key = mapEntry.getKey();
+                            Object value = mapEntry.getValue();
+                            String[] val = (String[]) value;
+                            String params = "";
+
+                            for (int i = 0; i < val.length; i++) {
+                                params += key + "=" + val[i] + "&";
+                                url += params;
+                            }
+                            url = url.substring(0, url.length() - 1);
+                        }
+                    }
+                    response.sendRedirect("/login?redirect=" + url);
+                }
+            } else {
+                filterChain.doFilter(servletRequest, servletResponse);
+            }
         }
+
+
+
+
     }
 }
