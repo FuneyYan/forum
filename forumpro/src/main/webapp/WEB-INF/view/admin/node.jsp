@@ -33,7 +33,7 @@
             <tr>
                 <td>${node.nodename}</td>
                 <td>
-                    <a href="/admin/nodeUpdate?nodeid=${node.id}">修改</a>
+                    <a href="/admin/nodeUpdate?nodeid=${node.id}" rel="${node.id}">修改</a>
                     <a href="javascript:;" rel="${node.id}" class="delNode">删除</a>
                 </td>
             </tr>
@@ -50,7 +50,6 @@
     $(".delNode").click(function () {
         var nodeid=$(this).attr("rel");
         $(function () {
-            console.log(nodeid);
             swal({title: "确定要删除该节点?",
                 type: "warning",
                 showCancelButton: true,
@@ -78,6 +77,10 @@
             });
         });
     });
+
+
+
+
 </script>
 </body>
 </html>

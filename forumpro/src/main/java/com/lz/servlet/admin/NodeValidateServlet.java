@@ -20,14 +20,11 @@ public class NodeValidateServlet extends BasicServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String nodename=req.getParameter("nodename");
+        String nodeid=req.getParameter("nodeid");
         nodename=StringUtils.isoToUtf8(nodename);
         NodeService nodeService=new NodeService();
-        try{
-            nodeService.findNodeByNodeName(nodename);
-            renderTxt("true",resp);
-        }catch (RuntimeException e){
-            renderTxt("false",resp);
-        }
+        renderTxt(nodeService.findNodeByNodeName(nodeid,nodename),resp);
+
 
     }
 }
