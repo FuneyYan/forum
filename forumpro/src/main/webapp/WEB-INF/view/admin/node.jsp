@@ -18,7 +18,7 @@
 <%@include file="../include/adminNavBar.jsp"%>
 <!--header-bar end-->
 <div class="container-fluid mt20">
-    <a href="newnode.html" class="btn btn-success">添加新节点</a>
+    <a href="/admin/addNode" class="btn btn-success">添加新节点</a>
     <table class="table">
         <thead>
         <tr>

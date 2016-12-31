@@ -24,4 +24,23 @@ public class NodeService {
             throw new RuntimeException("节点不存在");
         }
     }
+
+
+    public Node findNodeByNodeName(String nodename) {
+        Node node=null;
+        if(StringUtils.isEmpty(nodename)){
+            throw new RuntimeException("节点名称错误");
+        }else{
+            node=nodeDao.findByNodename(nodename);
+            if (node != null) {
+                throw new RuntimeException("节点名已经存在");
+            }else{
+                return node;
+            }
+        }
+    }
+
+    public void addNode(String nodename) {
+        nodeDao.addNode(nodename);
+    }
 }
