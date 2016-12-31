@@ -20,6 +20,12 @@ public class JsonResult {
         this.data = data;
     }
 
+    //错误返回错误信息
+    public JsonResult(String message){
+        this.state=ERROR;
+        this.data=message;
+    }
+
 
 //    失败不返回数据
     public JsonResult(String state,String message){

@@ -22,4 +22,9 @@ public class NodeDao {
         String sql = "update t_node set topicnum = ?,nodename = ? where id = ?";
         DbHelp.update(sql,node.getTopicnum(),node.getNodename(),node.getId());
     }
+
+    public void delNodeById(String nodeid) {
+        String sql="delete from t_node where id=?";
+        DbHelp.update(sql,nodeid);
+    }
 }

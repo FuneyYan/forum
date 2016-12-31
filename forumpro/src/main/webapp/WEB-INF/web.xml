@@ -28,7 +28,7 @@
     </init-param>
     <init-param>
       <param-name>adminValidateURL</param-name>
-      <param-value>/admin/home,/admin/topic</param-value>
+      <param-value>/admin/home,/admin/topic,/admin/node</param-value>
     </init-param>
   </filter>
   <filter-mapping>
