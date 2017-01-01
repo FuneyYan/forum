@@ -20,6 +20,7 @@ public class AdminService {
     ReplyDao replyDao=new ReplyDao();
     NodeDao nodeDao=new NodeDao();
     UserDao userDao=new UserDao();
+    TopicDao topicDao=new TopicDao();
 //    管理员登陆
     public Admin findAdminByName(String adminname,String password,String ip) {
         Admin admin=adminDao.findAdminByName(adminname);
@@ -89,6 +90,16 @@ public class AdminService {
             }
         }else{
             throw new RuntimeException("参数错误");
+        }
+    }
+
+    public void updateTopicNode(String nodeid, String topicid) {
+        if(StringUtils.isNumeric(nodeid) && StringUtils.isNumeric(topicid)){
+            Topic topic=topicService.findTopicById(topicid);
+            topic.setNode_id(Integer.valueOf(nodeid));
+            topicDao.update(topic);
+        }else{
+            throw new RuntimeException("参数异常");
         }
     }
 }

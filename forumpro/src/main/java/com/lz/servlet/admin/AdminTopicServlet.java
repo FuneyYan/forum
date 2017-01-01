@@ -1,6 +1,7 @@
 package com.lz.servlet.admin;
 
 import com.lz.dto.JsonResult;
+import com.lz.entity.Node;
 import com.lz.entity.Topic;
 import com.lz.service.AdminService;
 import com.lz.service.TopicService;
@@ -26,6 +27,9 @@ public class AdminTopicServlet extends BasicServlet {
         Page<Topic> topicPage=topicService.findAllTopicByNodeid("",pageNo);
 //        获取所有帖子
         req.setAttribute("topicList",topicPage);
+
+        List<Node> list=topicService.getAllNode();
+        req.setAttribute("nodeList",list);
         forward("/admin/topic",req,resp);
     }
 

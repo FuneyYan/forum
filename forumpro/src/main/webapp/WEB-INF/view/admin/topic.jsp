@@ -7,6 +7,17 @@
     <link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/js/sweetAlert/sweetalert.css">
+    <style>
+        .table td{
+            vertical-align: middle;
+        }
+        .table select{
+            width: 150px;
+            margin: 0px;
+
+        }
+
+    </style>
 </head>
 <body>
 <%@include file="../include/adminNavBar.jsp" %>
@@ -20,6 +31,7 @@
             <th>发布时间</th>
             <th>回复数量</th>
             <th>最后回复时间</th>
+            <th>所属节点</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -32,7 +44,18 @@
                 <td>${topic.createtime}</td>
                 <td>${topic.replynum}</td>
                 <td>${topic.lastreplytime}</td>
-                <td><a href="javascript:;" rel="${topic.id}" class="delTopic">删除</a></td>
+                <td>
+                    <select name="nodeid" id="nodeid">
+                        <c:forEach items="${nodeList}" var="node">
+                            <option ${node.id==topic.node_id?"selected":""} value="${node.id}">${node.nodename}</option>
+                        </c:forEach>
+
+                    </select>
+                </td>
+                <td>
+                    <a href="javascript:;" rel="${topic.id}" class="update">修改</a>
+                    <a href="javascript:;" rel="${topic.id}" class="delTopic">删除</a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
@@ -89,6 +112,28 @@
                 });
 
             });
+        });
+
+        $(".update").click(function () {
+            var topicid=$(this).attr("rel");
+            var nodeid=$("#nodeid").val();
+           $.ajax({
+               url:"/admin/topicUpdate",
+               type:"post",
+               data:{"topicid":topicid,"nodeid":nodeid},
+               success:function (data) {
+                   if(data.state='success'){
+                       swal({title:"修改完成"},function () {
+                          window.history.go(0);
+                       });
+                   }else{
+                       swal(data.data);
+                   }
+               },
+               error:function () {
+                   swal("服务器异常");
+               }
+           })
         });
 
 
