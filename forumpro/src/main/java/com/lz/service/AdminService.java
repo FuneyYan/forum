@@ -1,19 +1,16 @@
 package com.lz.service;
 
-import com.lz.dao.AdminDao;
-import com.lz.dao.NodeDao;
-import com.lz.dao.ReplyDao;
-import com.lz.dao.TopicDao;
-import com.lz.entity.Admin;
-import com.lz.entity.Node;
-import com.lz.entity.Reply;
-import com.lz.entity.Topic;
+import com.lz.dao.*;
+import com.lz.entity.*;
 import com.lz.util.Config;
+import com.lz.util.Page;
 import com.lz.util.StringUtils;
+import com.lz.vo.UserVo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminService {
@@ -22,6 +19,7 @@ public class AdminService {
     AdminDao adminDao=new AdminDao();
     ReplyDao replyDao=new ReplyDao();
     NodeDao nodeDao=new NodeDao();
+    UserDao userDao=new UserDao();
 //    管理员登陆
     public Admin findAdminByName(String adminname,String password,String ip) {
         Admin admin=adminDao.findAdminByName(adminname);
@@ -61,6 +59,36 @@ public class AdminService {
     }
 
 
+    public Page<UserVo> findAllUser(Integer pno) {
+        Integer count=0;
+        count=adminDao.count();
+        Page<UserVo> page=new Page<>(count,pno);
+        List<User> userList=adminDao.findAllUsers();
+        List<UserVo> uservoList=new ArrayList<UserVo>();
+        for (User user:userList) {
+            UserVo uservo=adminDao.findUserVoById(user.getId());
+            uservoList.add(uservo);
+        }
 
+        page.setItems(uservoList);
+        return page;
+    }
 
+    public void updateUserState(String userid, String userstate) {
+        if(StringUtils.isNumeric(userid) && StringUtils.isNumeric(userstate)){
+            User user=userDao.findById(Integer.valueOf(userid));
+            if(user!=null){
+                if(userstate.equals("1")){
+                    user.setState(User.USER_DISABLED);
+                }else{
+                    user.setState(User.USER_ACTIVE);
+                }
+                userDao.update(user);
+            }else{
+                throw new RuntimeException("用户不存在");
+            }
+        }else{
+            throw new RuntimeException("参数错误");
+        }
+    }
 }
