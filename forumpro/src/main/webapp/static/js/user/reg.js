@@ -66,12 +66,13 @@ $(function () {
                 },
                 success:function (data) {
                     if(data.state=='success'){
-                        alert("注册成功，请登录");
-                        window.location.href="/login";
+                        swal({title:"注册成功，请前往邮箱激活账号"},function () {
+                            window.location.href="/login";
+                        });
                     }
                 },
                 error:function () {
-                    alert("server error");
+                    swal("服务器异常");
                 },
                 complete:function () {
                     $("#regBtn").text("注册").removeAttr("disabled");

@@ -31,7 +31,7 @@ public class FavServlet extends BasicServlet{
                 topicService.deleteFave(topicid,userid);
             }
             Topic topic=topicService.findTopicById(topicid);
-            renderJson(new JsonResult(topic.getThanknum()),resp);
+            renderJson(new JsonResult(topic.getFavnum()),resp);
         }else{
             resp.sendError(404);
         }

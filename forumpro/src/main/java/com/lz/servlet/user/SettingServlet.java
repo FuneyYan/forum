@@ -69,7 +69,6 @@ public class SettingServlet extends BasicServlet {
     //修改邮件
     private void emailUpdate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String email=req.getParameter("email");
-        System.out.println("new  email "+email);
         User user=getCurrUser(req);
 
         UserService userService=new UserService();

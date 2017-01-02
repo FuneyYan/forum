@@ -4,6 +4,7 @@ import com.lz.servlet.BasicServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,17 @@ public class LogOutServlet extends BasicServlet {
         session.invalidate();
 //        resp.sendRedirect("/login");
         req.setAttribute("message","您已经安全退出");
+
+        Cookie[] cookies = req.getCookies();
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                cookie.setMaxAge(0);
+                cookie.setPath("/");
+                cookie.setDomain("localhost");
+                resp.addCookie(cookie);
+            }
+        }
+
         forward("user/login",req,resp);
     }
 }

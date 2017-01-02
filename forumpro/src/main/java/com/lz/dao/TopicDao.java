@@ -1,6 +1,7 @@
 package com.lz.dao;
 
 import com.lz.entity.Topic;
+import com.lz.entity.TopicReplyCount;
 import com.lz.entity.User;
 import com.lz.util.Config;
 import com.lz.util.DbHelp;
@@ -8,6 +9,7 @@ import com.lz.util.StringUtils;
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.handlers.AbstractListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.ResultSet;
@@ -68,5 +70,21 @@ public class TopicDao {
                 return topic;
             }
         },array.toArray());
+    }
+
+    public int countTopicByDay() {
+        String sql = "select count(*) from (select count(*) from t_topic group by DATE_FORMAT(createtime,'%y-%m-%d')) AS topicCount";
+        return DbHelp.query(sql,new ScalarHandler<Long>()).intValue();
+    }
+
+
+    public List<TopicReplyCount> getTopicAndReplyNumList(Integer start ,Integer pageSize) {
+        String sql = "SELECT COUNT(*) topicnum,DATE_FORMAT(createtime,'%y-%m-%d') 'time',\n" +
+                "(SELECT COUNT(*) FROM t_reply WHERE DATE_FORMAT(createtime,'%y-%m-%d') \n" +
+                "= DATE_FORMAT(t_topic.createtime,'%y-%m-%d')) 'replynum'\n" +
+                "FROM t_topic GROUP BY (DATE_FORMAT(createtime,'%y-%m-%d')) \n" +
+                "ORDER BY (DATE_FORMAT(createtime,'%y-%m-%d')) DESC limit ?,?;";
+
+        return DbHelp.query(sql,new BeanListHandler<TopicReplyCount>(TopicReplyCount.class),start,pageSize);
     }
 }

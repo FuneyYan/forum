@@ -62,7 +62,7 @@ $(function () {
 
 
                     }else{
-                        alert(data.message);
+                        swal(data.data);
                     }
                 },
                 error:function () {

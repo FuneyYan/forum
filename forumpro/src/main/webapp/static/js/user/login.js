@@ -62,11 +62,11 @@ $(function () {
 
 
                     }else{
-                        alert(data.message);
+                        swal(data.message);
                     }
                },
                error:function () {
-                   alert("server exception");
+                   swal("服务器异常");
                },
                complete:function () {
                    $("#loginBtn").text("登陆").removeAttr("disabled");

@@ -21,7 +21,7 @@ public class TopicDetailServlet extends BasicServlet {
         User user=getCurrUser(req);
         try {
             Topic topic = topicService.findTopicById(topicid);
-            topic.setFavnum(topic.getFavnum()+1);
+            topic.setClicknum(topic.getClicknum()+1);
             topicService.updateTopic(topic);
             if(user!=null){
                 Fav fav=topicService.findFav(user.getId(),topicid);
@@ -38,8 +38,8 @@ public class TopicDetailServlet extends BasicServlet {
             forward("topic/topicDetail",req,resp);
 
         }catch (Exception e){
-            e.printStackTrace();
-            resp.sendError(404);
+//            e.printStackTrace();
+            resp.sendError(404,"该帖不存在");
         }
     }
 }

@@ -16,6 +16,8 @@ import com.lz.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -269,5 +271,20 @@ public class UserService {
                 notifyDao.readNotify(notify);
             }
         }
+    }
+
+    public boolean validateLogin(String username, HttpServletRequest req) {
+        Cookie[] cookies = req.getCookies();
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                System.out.println(cookie.getName() + " -> " + cookie.getValue());
+                if(cookie.getName().equals("islogin")){
+                    if("yes".equals(cookie.getValue())){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

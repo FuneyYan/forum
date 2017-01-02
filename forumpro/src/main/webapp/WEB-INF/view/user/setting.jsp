@@ -141,7 +141,8 @@
                 }, function() {
                     var url="http://oi1tcffmb.bkt.clouddn.com/"+fileKey;
                     $("#avatar_img").attr("src",url+"?imageView2/1/w/40/h/40");
-                    $("#navbar_avatar").attr("src",url+"?imageView2/1/w/20/h/20")
+                    $("#navbar_avatar").attr("src",url+"?imageView2/1/w/20/h/20");
+                    window.history.go(0);
                 });
             }
         }).error(function () {

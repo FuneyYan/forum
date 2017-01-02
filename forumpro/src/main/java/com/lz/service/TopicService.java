@@ -239,4 +239,12 @@ public class TopicService {
     }
 
 
+    public Page<TopicReplyCount> findAllTopicReplyCountByDayList(Integer pageNo) {
+        int count=topicDao.countTopicByDay();
+        Page<TopicReplyCount> page=new Page<>(count,pageNo);
+
+        List<TopicReplyCount> countLit =  topicDao.getTopicAndReplyNumList(page.getStart(),page.getPageSize());
+        page.setItems(countLit);
+        return page;
+    }
 }
