@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>主题管理</title>
-    <link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/js/sweetAlert/sweetalert.css">
     <style>
         .table td{
@@ -45,7 +45,7 @@
                 <td>${topic.replynum}</td>
                 <td>${topic.lastreplytime}</td>
                 <td>
-                    <select name="nodeid" id="nodeid">
+                    <select name="nodeid" class="nodeid">
                         <c:forEach items="${nodeList}" var="node">
                             <option ${node.id==topic.node_id?"selected":""} value="${node.id}">${node.nodename}</option>
                         </c:forEach>
@@ -116,7 +116,8 @@
 
         $(".update").click(function () {
             var topicid=$(this).attr("rel");
-            var nodeid=$("#nodeid").val();
+            var nodeid=$(".nodeid");
+
            $.ajax({
                url:"/admin/topicUpdate",
                type:"post",
