@@ -56,7 +56,10 @@ public class TopicEditServlet extends BasicServlet {
         TopicService topicService=new TopicService();
         try{
             topicService.updateTopicByid(title,content,nodeid,topicid);
-            renderJson(new JsonResult(topicid),resp);
+            JsonResult result=new JsonResult();
+            result.setState(JsonResult.SUCCESS);
+            result.setData(topicid);
+            renderJson(result,resp);
         }catch (Exception e){
             renderJson(new JsonResult(e.getMessage()),resp);
         }

@@ -113,10 +113,13 @@
 
             });
         });
+        var nodeid;
+        $(".nodeid").change(function () {
+           nodeid=$(this).val();
+        });
 
         $(".update").click(function () {
             var topicid=$(this).attr("rel");
-            var nodeid=$(".nodeid");
 
            $.ajax({
                url:"/admin/topicUpdate",
